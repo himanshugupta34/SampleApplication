@@ -9,6 +9,6 @@ abstract class BaseViewModel(
     mApplication: Application
 ) : AndroidViewModel(mApplication) {
 
-//    protected val isUserLoggedIn get() = mPreferenceHelper.getUserData() != null
+    protected val isExistingUser get() = mPreferenceHelper.getIsExistingUser()
     protected fun clearPreference() = this.mPreferenceHelper.clearData()
 }

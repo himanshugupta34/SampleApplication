@@ -2,5 +2,6 @@
     <string name="app_name">Test Application</string>
 
     <string name="no_internet">No Internet Connection</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
 </resources>

@@ -13,26 +13,36 @@ import javax.inject.Singleton
 class PreferenceHelper @Inject constructor(@ApplicationContext context: Context) {
 
     companion object {
-        const val KEY_USER_LOGIN_DATA = "_user_login_data"
-        const val KEY_USER_AUTH_DATA = "_user_auth_data"
+        const val KEY_JOKE_DATA = "_joke_data"
+        const val IS_EXISTING_USER = "is_existing_user"
     }
 
     private val sharedPref: SharedPreferences =
-        context.getSharedPreferences("NAYAN_CONTRACTOR", Context.MODE_PRIVATE)
-//    private val mTypeTokenLoginModel = object : TypeToken<UserData>() {}.type
+        context.getSharedPreferences("SAMPLE_TEST_APP", Context.MODE_PRIVATE)
+    private val mTypeTokenJokeListModel =
+        object : TypeToken<MutableList<String>>() {}.type
+
     internal fun clearData() = sharedPref.edit { clear() }
 
-//    fun setUserData(userData: UserData?) {
-//        sharedPref.edit {
-//            putString(KEY_USER_LOGIN_DATA, Gson().toJson(userData, mTypeTokenLoginModel))
-//        }
-//    }
-//
-//    fun getUserData(): UserData? {
-//        return sharedPref.getString(KEY_USER_LOGIN_DATA, null)?.let {
-//            Gson().fromJson(it, mTypeTokenLoginModel)
-//        } ?: run { null }
-//    }
+    fun getIsExistingUser(): Boolean {
+        return sharedPref.getBoolean(IS_EXISTING_USER, false)
+    }
+
+    fun saveJokeData(jokeData: String) {
+        val jokeList = getJokeData()
+        jokeList.add(jokeData)
+        val valueString = Gson().toJson(jokeList, mTypeTokenJokeListModel)
+        sharedPref.edit {
+            putBoolean(IS_EXISTING_USER, true)
+            putString(KEY_JOKE_DATA, valueString)
+        }
+    }
+
+    fun getJokeData(): MutableList<String> {
+        return sharedPref.getString(KEY_JOKE_DATA, null)?.let {
+            Gson().fromJson(it, mTypeTokenJokeListModel)
+        } ?: run { mutableListOf() }
+    }
 
     fun read(key: String?, defValue: String?): String? {
         return sharedPref.getString(key, defValue)
