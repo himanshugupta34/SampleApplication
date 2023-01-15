@@ -30,32 +30,24 @@ class DashboardViewModel @Inject constructor(
         return mPreferenceHelper.getJokeData()
     }
 
-    /**
-     *  Pair<String, Boolean> :
-     *      Pair.First : is used for the updating count timer on to the view
-     *      Pair.Second : is used if count down is finished
-     */
     private lateinit var timer: CountDownTimer
     fun startTimerCountDown() {
-        viewModelScope.launch {
-            if (::timer.isInitialized) {
-                timer.cancel()
-            }
-            timer = object : CountDownTimer(1000 * 60, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                }
-
-                override fun onFinish() {
-                    getJoke()
-                    startTimerCountDown()
-                }
-            }
-            timer.start()
+        if (::timer.isInitialized) {
+            timer.cancel()
         }
+        timer = object : CountDownTimer(1000 * 60, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                getJoke()
+                startTimerCountDown()
+            }
+        }
+        timer.start()
     }
 
-    private val _jokeData: MutableLiveData<Event<Resource<String>>> =
-        MutableLiveData()
+    private val _jokeData: MutableLiveData<Event<Resource<String>>> = MutableLiveData()
     val jokeData: LiveData<Event<Resource<String>>> get() = _jokeData
 
     fun getJoke() = viewModelScope.launch {
