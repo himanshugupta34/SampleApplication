@@ -7,3 +7,5 @@
 .externalNativeBuild
 /keystore.properties
 app/build/
+/sample-staging.jks
+app/release/
