@@ -1,8 +1,5 @@
 package com.example.testapplication
 
-import android.content.Intent
-import android.os.Build
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +10,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
-
-inline fun <reified T : Parcelable> Intent.parcelableArrayList(key: String): ArrayList<T>? = when {
-    Build.VERSION.SDK_INT >= 33 -> getParcelableArrayListExtra(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
-}
 
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline bindingInflater: (LayoutInflater) -> T) =
     lazy(LazyThreadSafetyMode.NONE) {

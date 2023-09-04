@@ -1,35 +1,30 @@
 package com.example.testapplication.base
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.testapplication.extension.hasNetwork
-import com.example.testapplication.receivers.NetworkConnectionReceiver
-import com.example.testapplication.receivers.NetworkConnectionReceiver.Companion.connectivityReceiverListener
+import androidx.lifecycle.Observer
+import com.example.testapplication.interfaces.ConnectivityReceiverListener
+import com.example.testapplication.receivers.NetworkConnectionLiveData
 
-@Suppress("DEPRECATION")
 abstract class BaseActivity : AppCompatActivity() {
 
-    private val networkReceiver = NetworkConnectionReceiver()
-
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(networkReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
+    private lateinit var networkConnectionLiveData: NetworkConnectionLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hasNetwork().let {
-            Log.i("NetworkConnReceiver", it.toString())
-            if (connectivityReceiverListener != null)
-                connectivityReceiverListener?.onNetworkConnectionChanged(it)
-        }
+        networkConnectionLiveData = NetworkConnectionLiveData(this, connectivityReceiverListener)
+        networkConnectionLiveData.observe(this, networkObserver)
     }
 
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(networkReceiver)
+    private val networkObserver = Observer<Boolean?> { isConnected ->
+        onNetworkConnectionChanged(isConnected)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkConnectionLiveData.removeObserver(networkObserver)
+    }
+
+    abstract fun onNetworkConnectionChanged(isConnected: Boolean?)
+    abstract val connectivityReceiverListener: ConnectivityReceiverListener
 }

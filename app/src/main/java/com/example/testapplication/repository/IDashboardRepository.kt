@@ -1,8 +1,9 @@
 package com.example.testapplication.repository
 
-import kotlinx.coroutines.flow.Flow
+import android.content.Context
+import com.example.testapplication.models.PageData
 
 interface IDashboardRepository {
 
-    suspend fun getJoke(): Flow<String>
+    suspend fun loadJsonData(context: Context, pageNum: Int): PageData?
 }

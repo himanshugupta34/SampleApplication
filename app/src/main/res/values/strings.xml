@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Test Application</string>
+    <string name="app_name">Demo Diagonal</string>
 
     <string name="no_internet">No Internet Connection</string>
     <string name="something_went_wrong">Something went wrong</string>
-
+    <string name="romantic_comedy">Romantic Comedy</string>
+    <string name="search">Search</string>
 </resources>

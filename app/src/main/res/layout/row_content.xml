@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pageContentData"
+            type="com.example.testapplication.models.ContentData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/posterImageView"
+            loadImage="@{pageContentData.posterImage}"
+            android:layout_width="match_parent"
+            android:layout_height="170sp"
+            android:minWidth="120sp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movieName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/titillium_web_light"
+            android:maxLines="1"
+            android:text="@{pageContentData.highlightedName == null ? pageContentData.name : pageContentData.highlightedName}"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/posterImageView"
+            app:layout_constraintStart_toStartOf="@id/posterImageView"
+            app:layout_constraintTop_toBottomOf="@id/posterImageView"
+            tools:text="Dummy Text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
